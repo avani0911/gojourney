@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="./css/table.css">
+    <link rel="stylesheet" href="./css/deletebutton.css">
+
+    <!-- Iconscout CSS -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+    <title>Admin Panel</title>
+    <style>
+        .booking-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: left;
+        }
+
+        .booking-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-group select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .search-btn {
+            background-color: #5C4033;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .search-btn:hover {
+            background-color: #4a3328;
+        }
+
+        .bus-results {
+            margin-top: 30px;
+        }
+
+        .bus-results h3 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .bus-results ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .bus-results ul li {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="images/logo.png" alt>
+            </div>
+
+            <span class="logo_name">GoJourney</span>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="./admin.html">
+                        <i class="uil uil-estate"></i>
+                        <span class="link-name">Welcome</span>
+                    </a></li>
+                
+                <li><a href="./adminBuses.html">
+                        <i class="fi fi-rr-bus"></i>
+                        <span class="link-name">Buses</span>
+                    </a></li>
+                <li><a href="./adminReservation.html">
+                        <i class="fi fi-rr-memo-circle-check"></i>
+                        <span class="link-name">Reservations</span>
+                    </a></li>
+                <li><a href="./adminRoutes.html">
+                        <i class="fi fi-rs-route"></i>
+                        <span class="link-name">Routes</span>
+                    </a></li>
+                    <li><a href="./adminUsers.html">
+                        <i class="fi fi-rs-user"></i>
+                        <span class="link-name">Account</span>
+                    </a></li>
+            </ul>
+
+            <ul class="logout-mode">
+                <li><a id="popupButton">
+                        <i class="uil uil-signout"></i>
+                        <span class="link-name">Logout</span>
+                    </a></li>
+
+                <li class="mode">
+                    <a>
+                        <i class="uil uil-moon"></i>
+                        <span class="link-name">Dark Mode</span>
+                    </a>
+
+                    <div class="mode-toggle">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+        </div>
+        <div class="popup" id="popupMessage">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <p>Are you sure you want to sign out?</p>
+            <button id="signout">Logout</button>
+        </div>
+
+            <div class="booking-section">
+                <h2>Search Available Buses</h2>
+                <form id="busSearchForm">
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="startLocation">Start Location:</label>
+                        <select id="startLocation" name="startLocation" required>
+                            <option value="">Select Start Location</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Kolkata">Kolkata</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Ahmedabad">Ahmedabad</option>
+                            <option value="Jaipur">Jaipur</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="endLocation">End Location:</label>
+                        <select id="endLocation" name="endLocation" required>
+                            <option value="">Select End Location</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Agra">Agra</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Goa">Goa</option>
+                            <option value="Bhubaneswar">Bhubaneswar</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Surat">Surat</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Ahmedabad">Ahmedabad</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="search-btn">Search Buses</button>
+                </form>
+                <div id="busResults" class="bus-results">
+                    <h3>Available Buses:</h3>
+                    <ul id="busList"></ul>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <script src="./js/adminLogout.js"></script>
+    <script src="./js/adminBuses.js"></script>
+    <script src="./js/modeToggle.js"></script>
+</body>
+</html>

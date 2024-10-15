@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ======== CSS ======== -->
+    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="./css/deletebutton.css">
+    <link rel="stylesheet" href="./css/cards.css"> <!-- New CSS for card layout -->
+     
+    <!-- ======= Iconscout CSS ======= -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+    <title>Admin Panel</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px; /* Space between cards */
+    padding: 20px;
+}
+
+.city-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: calc(30% - 20px); /* 3 cards in a row */
+    transition: transform 0.3s;
+}
+
+.city-card:hover {
+    transform: scale(1.05);
+}
+
+.city-card h3 {
+    margin: 0 0 10px;
+}
+
+.city-card p {
+    margin: 5px 0;
+    color: #555;
+}
+
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="images/logo.png" alt>
+            </div>
+
+            <span class="logo_name">GoJourney</span>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="./admin.html">
+                        <i class="uil uil-estate"></i>
+                        <span class="link-name">Welcome</span>
+                    </a></li>
+                
+                <li><a href="./adminBuses.html">
+                        <i class="fi fi-rr-bus"></i>
+                        <span class="link-name">Buses</span>
+                    </a></li>
+                <li><a href="./adminReservation.html">
+                        <i class="fi fi-rr-memo-circle-check"></i>
+                        <span class="link-name">Reservations</span>
+                    </a></li>
+                <li><a href="./adminRoutes.html">
+                        <i class="fi fi-rs-route"></i>
+                        <span class="link-name">Routes</span>
+                    </a></li>
+                    <li><a href="./adminUsers.html">
+                        <i class="fi fi-rs-user"></i>
+                        <span class="link-name">Account</span>
+                    </a></li>
+            </ul>
+
+            <ul class="logout-mode">
+                <li><a id="popupButton">
+                        <i class="uil uil-signout"></i>
+                        <span class="link-name">Logout</span>
+                    </a></li>
+
+                <li class="mode">
+                    <a>
+                        <i class="uil uil-moon"></i>
+                        <span class="link-name">Dark Mode</span>
+                    </a>
+
+                    <div class="mode-toggle">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+        </div>
+
+        <div class="popup" id="popupMessage">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <p>Are you sure you want to sign out?</p>
+            <button id="signout">Logout</button>
+        </div>
+
+        <div class="dash-content">
+            <div class="overview">
+                <div class="title">
+                    <i class="fi fi-rr-route"></i>
+                    <span class="text">Cities We Cover</span>
+                </div>
+
+                <div class="card-container">
+                    <!-- City Card -->
+                    <div class="city-card">
+                        <h3>Mumbai</h3>
+                        <p>Discover the vibrant culture, bustling markets, and stunning architecture of Mumbai.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Delhi</h3>
+                        <p>Explore the rich history, diverse food, and majestic monuments of the capital city.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Bangalore</h3>
+                        <p>Experience the garden city known for its tech industry and pleasant climate.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Hyderabad</h3>
+                        <p>Dive into the history and flavors of Hyderabad, famous for its biryani and historic sites.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Pune</h3>
+                        <p>Enjoy Pune's pleasant weather and rich educational and cultural heritage.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Kolkata</h3>
+                        <p>Immerse yourself in the art, culture, and cuisine of Kolkata, the City of Joy.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Chennai</h3>
+                        <p>Experience the traditional South Indian culture and stunning beaches of Chennai.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Ahmedabad</h3>
+                        <p>Explore the heritage and modernity of Ahmedabad, known for its textiles and architecture.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Jaipur</h3>
+                        <p>Visit the Pink City, famous for its palaces, forts, and vibrant bazaars.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Goa</h3>
+                        <p>Relax on the beautiful beaches and enjoy the nightlife and Portuguese heritage of Goa.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Agra</h3>
+                        <p>Home to the iconic Taj Mahal, Agra is a must-visit for its rich history and architecture.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Bhubaneswar</h3>
+                        <p>Discover the temples and culture of Bhubaneswar, the capital of Odisha.</p>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>Surat</h3>
+                        <p>Known for its diamond cutting and textiles, Surat is a bustling city with a rich history.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="./js/modeToggle.js"></script>
+    <script src="./js/adminLogout.js"></script>
+</body>
+</html>

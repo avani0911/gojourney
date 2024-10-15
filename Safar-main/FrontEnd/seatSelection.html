@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Selection</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css'>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            text-align: center;
+        }
+        #busInfo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #seatLayout {
+            display: grid;
+            grid-template-columns: repeat(3, 40px) 20px repeat(2, 40px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .seat {
+            width: 40px;
+            height: 40px;
+            background-color: green;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .seat.occupied {
+            background-color: red;
+            cursor: not-allowed;
+        }
+        .seat.selected {
+            background-color: yellow;
+            color: black;
+        }
+        #totalPrice {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #numSeats {
+            display: block;
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+        button {
+            display: block;
+            margin: 0 auto 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            
+        }
+        button a{
+            text-decoration: none;
+            color:white;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo-name">
+            <span class="logo_name">GoJourney</span>
+        </div>
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="./admin.html">
+                    <i class="uil uil-estate"></i>
+                    <span class="link-name">Welcome</span>
+                </a></li>
+                <li><a href="./adminBuses.html">
+                    <i class="fi fi-rr-bus"></i>
+                    <span class="link-name">Buses</span>
+                </a></li>
+                <li><a href="./adminReservation.html">
+                    <i class="fi fi-rr-memo-circle-check"></i>
+                    <span class="link-name">Reservations</span>
+                </a></li>
+                <li><a href="./adminfeedback.html">
+                    <i class="fi fi-rr-smiley-comment-alt"></i>
+                    <span class="link-name">FeedBacks</span>
+                </a></li>
+                <li><a href="./adminRoutes.html">
+                    <i class="fi fi-rs-route"></i>
+                    <span class="link-name">Routes</span>
+                </a></li>
+                <li><a href="./adminUsers.html">
+                    <i class="fi fi-rs-user"></i>
+                    <span class="link-name">Account</span>
+                </a></li>
+            </ul>
+            <ul class="logout-mode">
+                <li><a id="popupButton">
+                    <i class="uil uil-signout"></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+                <li class="mode">
+                    <a>
+                        <i class="uil uil-moon"></i>
+                        <span class="link-name">Dark Mode</span>
+                    </a>
+                    <div class="mode-toggle">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+        </div>
+        <div class="seats">
+            <h2>Seat Selection</h2>
+            <div id="busInfo"></div>
+            <label for="numSeats">Number of seats to book:</label>
+            <input type="number" id="numSeats" min="1" max="5" value="1">
+            <button id="showSeatsButton">Show Seats</button>
+            <div id="seatLayout"></div>
+            <div id="totalPrice">Total Price: ₹0</div>
+        </div>
+        <button id="book"><a href="adminReservation.html">Book</a></button>
+    </section>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Retrieve bus details from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const busName = urlParams.get("busName") || "Express Bus";
+            const time = urlParams.get("time") || "10:00 AM";
+            const date = urlParams.get("date") || "2024-10-15";
+            const startLocation = urlParams.get("startLocation") || "City A";
+            const endLocation = urlParams.get("endLocation") || "City B";
+            const seatPrice = parseInt(urlParams.get("price")) || 500; // Retrieve price from query parameters
+            
+            let maxSeats = 1; // Maximum seats user can select
+            let selectedSeats = [];
+
+            // Display bus information
+            const busInfoDiv = document.getElementById("busInfo");
+            busInfoDiv.textContent = `Bus: ${busName}, Date: ${date}, Time: ${time}, Route: ${startLocation} to ${endLocation}`;
+
+            // Function to generate seat layout
+            document.getElementById("showSeatsButton").addEventListener("click", function () {
+                maxSeats = parseInt(document.getElementById("numSeats").value);
+                if (isNaN(maxSeats) || maxSeats < 1 || maxSeats > 5) {
+                    alert(`Please select between 1 and 5 seats.`);
+                    return;
+                }
+
+                selectedSeats = []; // Reset selected seats when generating a new layout
+                updateTotalPrice(); // Reset total price
+
+                const seatLayout = document.getElementById("seatLayout");
+                seatLayout.innerHTML = ""; // Clear previous layout
+
+                // Loop to generate seat rows (Assuming 10 rows and 5 columns)
+                for (let row = 0; row < 10; row++) { 
+                    // Left side (3 seats)
+                    for (let col = 1; col <= 3; col++) {
+                        const seatNumber = row * 5 + col; // Unique seat number
+                        const seatDiv = createSeatDiv(seatNumber);
+                        seatLayout.appendChild(seatDiv);
+                    }
+
+                    // Middle passage
+                    const passage = document.createElement("div");
+                    passage.style.width = "20px"; // Space for passage
+                    seatLayout.appendChild(passage);
+
+                    // Right side (2 seats)
+                    for (let col = 4; col <= 5; col++) {
+                        const seatNumber = row * 5 + col;
+                        const seatDiv = createSeatDiv(seatNumber);
+                        seatLayout.appendChild(seatDiv);
+                    }
+                }
+            });
+
+            // Function to create individual seat elements
+            function createSeatDiv(seatNumber) {
+                const seatDiv = document.createElement("div");
+                seatDiv.className = "seat";
+                seatDiv.textContent = seatNumber;
+
+                // Handle seat selection and deselection
+                seatDiv.addEventListener("click", function () {
+                    if (seatDiv.classList.contains("occupied")) return; // Prevent if occupied
+
+                    if (seatDiv.classList.contains("selected")) {
+                        seatDiv.classList.remove("selected");
+                        selectedSeats = selectedSeats.filter(seat => seat !== seatNumber); // Deselect
+                    } else if (selectedSeats.length < maxSeats) {
+                        seatDiv.classList.add("selected");
+                        selectedSeats.push(seatNumber); // Select new seat
+                    } else {
+                        alert(`You can only select ${maxSeats} seats.`);
+                    }
+
+                    updateTotalPrice();
+                });
+
+                return seatDiv;
+            }
+
+            // Function to update total price
+            function updateTotalPrice() {
+                const totalPrice = selectedSeats.length * seatPrice; // Use the retrieved price
+                document.getElementById("totalPrice").textContent = `Total Price: ₹${totalPrice}`;
+            }
+        });
+    </script>
+</body>
+</html>
